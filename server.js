@@ -6,8 +6,9 @@ const config = {
     port: 3000,
     host: '0.0.0.0'
 }
-io.on('connection', client => {
-   console.log('---------', client);
+io.on('connection', socket => {
+   socket.emit('helloooo');
+   
 })
 
 server.listen(config.port, config.host, (e) => {
