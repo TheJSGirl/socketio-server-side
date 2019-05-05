@@ -30,6 +30,9 @@ io.on('connection', socket => {
 
    //// {from,to, message}
     socket.on('public-chat-server', (data) => {
+        if(!userData[data.username]) {
+                socket.emit('register')
+        }
         chatHistory.push(data);
         io.emit('public-chat-client',data);
     })
