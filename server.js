@@ -21,7 +21,11 @@ io.on('connection', socket => {
    // customer 'register' event to get user data
     socket.on('register', (data) => {
         // check user already exist
-    //    const userName = userData.filter(user => user !== data.user);
+       const [user]= userData.filter(user => user !== data.userName );
+       if(user) {
+           throw new Error('user already exists');
+       }
+    console.log(user)
         userData.push(data);
     })
     
@@ -30,7 +34,7 @@ io.on('connection', socket => {
 
    //// {from,to, message}
    socket.on('public-chat', (data) => {
-       // validate if user is registrered// < bad on
+       // validate if user is registrered
        chatHistory.push(data);
       // sockets.emit()
        io.emit('public-chat',data);
