@@ -21,24 +21,18 @@ io.on('connection', socket => {
    // customer 'register' event to get user data
     socket.on('register', (data) => {
         // check user already exist
-       const [user]= userData.filter(user => user !== data.userName );
-       if(user) {
-           throw new Error('user already exists');
+       if(userData[data.username]) {
+        throw new Error('user already exists');
        }
-    console.log(user)
-        userData.push(data);
+        userData[data.username] = socket.id;
     })
     
-   // io.sockets.emit('public-chat', chatHistory);
-   // create 'chat' event
 
    //// {from,to, message}
-   socket.on('public-chat', (data) => {
-       // validate if user is registrered
-       chatHistory.push(data);
-      // sockets.emit()
-       io.emit('public-chat',data);
-   })
+    socket.on('public-chat-server', (data) => {
+        chatHistory.push(data);
+        io.emit('public-chat-client',data);
+    })
 })
 
 
