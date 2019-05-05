@@ -9,17 +9,31 @@ const config = {
 
 // io.on supports defaults events
 const userData = [];
+const chatHistory = [];
+console.log("username", userData)
 io.on('connection', socket => {
     // broadcast message to all the clients
    io.sockets.emit("hellloooo everyone")
 
-   // customer 'register event to get user data
+   // commanding client to listen this event
+    socket.emit('register');
+
+   // customer 'register' event to get user data
     socket.on('register', (data) => {
+        // check user already exist
+    //    const userName = userData.filter(user => user !== data.user);
         userData.push(data);
     })
+    
+   // io.sockets.emit('public-chat', chatHistory);
    // create 'chat' event
-   socket.on('chat', (data) => {
-       console.log('chat data', data)
+
+   //// {from,to, message}
+   socket.on('public-chat', (data) => {
+       // validate if user is registrered// < bad on
+       chatHistory.push(data);
+      // sockets.emit()
+       io.emit('public-chat',data);
    })
 })
 
